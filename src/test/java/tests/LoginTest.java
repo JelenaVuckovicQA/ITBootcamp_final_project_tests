@@ -18,14 +18,12 @@ public class LoginTest extends BaseTestPage{
         homePage.goToLogin();
     }
 
-    @AfterMethod
-    public void logout() {
-        loginPage.checkLogout();
-        }
+
 
 
     @Test
     public void visitLoginPageTest() {
+        homePage.goToLogin();
 
         String expectedResult = "https://vue-demo.daniel-avellaneda.com/login";
         String actualResult = driver.getCurrentUrl();
@@ -34,6 +32,7 @@ public class LoginTest extends BaseTestPage{
 
     @Test
     public void inputType() {
+        homePage.goToLogin();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
         String expectedResult1 = "email";
         String actualResult1 = loginPage.getEmail().getAttribute("type");
@@ -47,6 +46,7 @@ public class LoginTest extends BaseTestPage{
 
     @Test
     public void invalidUsername() {
+        homePage.goToLogin();
 
         Faker faker = new Faker();
 
@@ -57,12 +57,12 @@ public class LoginTest extends BaseTestPage{
         WebElement actualResult = driver.findElement(By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]/ul/li"));
         Assert.assertEquals(actualResult.getText(), "User does not exists");
 
-
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
     }
 
     @Test
     public void invalidPassword() {
+        homePage.goToLogin();
 
         loginPage.invalidPassword();
 
@@ -75,6 +75,7 @@ public class LoginTest extends BaseTestPage{
     @Test
     public void loginUserTest () throws InterruptedException {
 
+        homePage.goToLogin();
         String expectedResult = "https://vue-demo.daniel-avellaneda.com/login";
         loginPage.loginMethod("admin@admin.com", "12345");
 
@@ -88,6 +89,7 @@ public class LoginTest extends BaseTestPage{
 
     @Test
     public void logOutTest() throws InterruptedException {
+        homePage.goToLogin();
 
         loginPage.loginMethod("admin@admin.com", "12345");
         String expectedResult = "LOGOUT";

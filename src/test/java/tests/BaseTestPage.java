@@ -4,11 +4,10 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
-import pages.HomePage;
-import pages.LoginPage;
-import pages.SignUpPage;
+import pages.*;
 
 import java.time.Duration;
 
@@ -21,6 +20,11 @@ public class BaseTestPage {
     protected HomePage homePage;
     protected LoginPage loginPage;
     protected SignUpPage signUpPage;
+    protected AdminPage adminPage;
+
+    protected LocalPage localPage;
+
+
 
 
     public BaseTestPage() { }
@@ -36,11 +40,23 @@ public class BaseTestPage {
             homePage = new HomePage(driver, webDriverWait);
             loginPage = new LoginPage(driver, webDriverWait);
             signUpPage = new SignUpPage(driver, webDriverWait);
+            adminPage = new AdminPage(driver, webDriverWait);
+            localPage = new LocalPage(driver, webDriverWait);
         }
 
         @BeforeMethod
         public void beforeMethod() {
             driver.get("https://vue-demo.daniel-avellaneda.com");
+        }
+
+    @AfterMethod
+    public void logout() {
+        loginPage.checkLogout();
+    }
+
+        @BeforeClass
+        public void maximiseWindow() {
+        driver.manage().window().maximize();
         }
 
         @AfterClass
