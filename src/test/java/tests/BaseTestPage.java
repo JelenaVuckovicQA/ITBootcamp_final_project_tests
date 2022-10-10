@@ -21,8 +21,8 @@ public class BaseTestPage {
     protected LoginPage loginPage;
     protected SignUpPage signUpPage;
     protected AdminPage adminPage;
-
     protected LocalPage localPage;
+    protected ProfilePage profilePage;
 
 
 
@@ -42,6 +42,7 @@ public class BaseTestPage {
             signUpPage = new SignUpPage(driver, webDriverWait);
             adminPage = new AdminPage(driver, webDriverWait);
             localPage = new LocalPage(driver, webDriverWait);
+            profilePage = new ProfilePage(driver, webDriverWait);
         }
 
         @BeforeMethod
