@@ -9,7 +9,7 @@ import java.time.Duration;
 
 public class LocalTests extends BaseTestPage{
 
-        @Test(priority = 1)
+        @Test
         public void esLanguageTest() throws InterruptedException {
             localPage.changeLanguageMethod();
             webDriverWait.withTimeout(Duration.ofSeconds(5));
@@ -19,7 +19,7 @@ public class LocalTests extends BaseTestPage{
 
         }
 
-        @Test (priority = 2)
+        @Test
         public void engLanguageTest() throws InterruptedException {
             localPage.changeLanguageMethod();
             webDriverWait.withTimeout(Duration.ofSeconds(5));
@@ -28,7 +28,7 @@ public class LocalTests extends BaseTestPage{
             Assert.assertEquals(actualResult.getText(), "Landing");
         }
 
-        @Test(priority = 3)
+        @Test
         public void franceLanguageTest() throws InterruptedException {
             localPage.changeLanguageMethod();
             webDriverWait.withTimeout(Duration.ofSeconds(5));

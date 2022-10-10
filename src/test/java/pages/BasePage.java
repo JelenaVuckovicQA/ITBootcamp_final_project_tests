@@ -8,11 +8,8 @@ public abstract class BasePage {
         protected WebDriver driver;
         protected WebDriverWait webDriverWait;
 
-    public BasePage(WebDriverWait driverWait) {
-        this.webDriverWait = webDriverWait;
-    }
 
-    public BasePage(WebDriver driver, WebDriverWait driverWait) {
+    public BasePage(WebDriver driver, WebDriverWait webDriverWait) {
             this.driver = driver;
             this.webDriverWait = webDriverWait;
         }
@@ -20,7 +17,7 @@ public abstract class BasePage {
             return driver;
         }
 
-        public WebDriverWait getDriverWait() {
+        public WebDriverWait getWebDriverWait() {
             return webDriverWait;
         }
     }

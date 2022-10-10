@@ -50,10 +50,10 @@ public class BaseTestPage {
             driver.get("https://vue-demo.daniel-avellaneda.com");
         }
 
-    @AfterMethod
-    public void logout() {
-        loginPage.checkLogout();
-    }
+   // @AfterMethod
+    //public void logout() {
+      //  loginPage.checkLogout();
+    //}
 
         @BeforeClass
         public void maximiseWindow() {

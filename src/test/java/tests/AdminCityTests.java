@@ -2,6 +2,7 @@ package tests;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
@@ -10,7 +11,7 @@ import java.time.Duration;
 
 public class AdminCityTests extends BaseTestPage {
 
-    @Test(priority = 1)
+    @Test
     public void adminCitiesUrlTest() throws InterruptedException {
         homePage.goToLogin();
         loginPage.loginMethod("admin@admin.com", "12345");
@@ -27,34 +28,33 @@ public class AdminCityTests extends BaseTestPage {
         loginPage.getLogoutBtn().click();
     }
 
-    @Test(priority = 2)
+    @Test
     public void createCityTest() throws InterruptedException {
         homePage.goToLogin();
         loginPage.loginMethod("admin@admin.com", "12345");
         adminPage.clickAdminBtn();
         adminPage.clickCitiesBtn();
-        adminPage.createCityMethod();
-        Thread.sleep(3000);
+        adminPage.addNewCityMethod(adminPage.getNewCityName());
+        Thread.sleep(5000);
         WebElement actualResult = driver.findElement(By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]"));
         Assert.assertTrue(actualResult.getText().contains("Saved successfully"));
         loginPage.getLogoutBtn().click();
     }
 
-  /*  @Test(priority = 3)
+     @Test
     public void editCityTest() throws InterruptedException {
-        homePage.goToLogin();
-        loginPage.loginMethod("admin@admin.com", "12345");
-        adminPage.clickAdminBtn();
-        webDriverWait.withTimeout(Duration.ofSeconds(5));
-        adminPage.clickCitiesBtn();
-        adminPage.editCityMethod();
-        webDriverWait.withTimeout(Duration.ofSeconds(10));
-        WebElement actualResult = driver.findElement(By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]"));
-        Assert.assertTrue(actualResult.getText().contains("Saved successfully"));
-
+         homePage.goToLogin();
+         loginPage.loginMethod("admin@admin.com", "12345");
+         adminPage.clickAdminBtn();
+         adminPage.clickCitiesBtn();
+         adminPage.editCityMethod();
+         webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(15));
+         WebElement actualResult = driver.findElement(By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]"));
+         Assert.assertTrue(actualResult.getText().contains("Saved successfully"));
+         loginPage.getLogoutBtn().click();
     }
 
-    @Test (priority = 4)
+    @Test
     public void searchCityTest() throws InterruptedException {
 
         //Podaci: editovani grad iz testa #3
@@ -64,14 +64,40 @@ public class AdminCityTests extends BaseTestPage {
         homePage.goToLogin();
         loginPage.loginMethod("admin@admin.com", "12345");
         adminPage.clickAdminBtn();
-        webDriverWait.withTimeout(Duration.ofSeconds(5));
         adminPage.clickCitiesBtn();
-        adminPage.editCityMethod();
-        webDriverWait.withTimeout(Duration.ofSeconds(10));
         adminPage.searchCityMethod();
-        WebElement townSelected = driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]"));
-        String actualResult = townSelected.getText();
-        Assert.assertEquals(actualResult, "New Town Name");
+        webDriverWait.withTimeout(Duration.ofSeconds(5));
+        Assert.assertEquals(adminPage.getFirstCityText().getText(), adminPage.getSearchedText().getText());
+        WebElement actualResult = driver.findElement(By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[1]/div[2]/table/tbody/tr[1]"));
+        Assert.assertTrue(actualResult.getText().contains(adminPage.getNewCityName()));
+        loginPage.getLogoutBtn().click();
 
-    }*/
+    }
+
+    @Test
+    public void deleteCityTest() {
+        homePage.goToLogin();
+        loginPage.loginMethod("admin@admin.com", "12345");
+        adminPage.clickAdminBtn();
+        adminPage.clickCitiesBtn();
+
+        webDriverWait.withTimeout(Duration.ofSeconds(15));
+        adminPage.searchCityMethod();
+        webDriverWait.withTimeout(Duration.ofSeconds(5));
+
+        WebElement cityNoOne = driver.findElement(By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[1]/div[3]/div[2]"));
+        webDriverWait.until(ExpectedConditions.visibilityOf(cityNoOne));
+        WebElement actualResult = driver.findElement(By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]"));
+        Assert.assertTrue(actualResult.getText().contains(adminPage.getNewCityName()));
+        adminPage.deleteCity();
+        webDriverWait.withTimeout(Duration.ofSeconds(5));
+
+        adminPage.deleteCityMethod();
+        webDriverWait.withTimeout(Duration.ofSeconds(5));
+
+        webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]")));
+        WebElement notificationTextBox = driver.findElement(By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]"));
+        Assert.assertTrue(notificationTextBox.getText().contains("Deleted successfully"));
+        loginPage.getLogoutBtn().click();
+    }
 }

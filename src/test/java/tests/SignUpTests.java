@@ -14,7 +14,7 @@ public class SignUpTests extends BaseTestPage {
 
 
 
-    @Test (priority = 1)
+    @Test
     public void visitSignUpPageTest() {
         //Visits the signup page
         //assert:
@@ -28,7 +28,7 @@ public class SignUpTests extends BaseTestPage {
 
 
     @Test (priority = 2)
-    public void checkInputTypesTest() throws InterruptedException {
+    public void checkInputTypesTest() {
 
         //Verifikovati da polje za unos emaila za atribut type ima vrednost
         //email
@@ -52,8 +52,8 @@ public class SignUpTests extends BaseTestPage {
 
     }
 
-    @Test (priority = 3)
-    public void displayErrorsTest() throws InterruptedException{
+    @Test
+    public void displayErrorsTest() {
         //Podaci:
         //name: Test Test
         //email: admin@admin.com
@@ -71,7 +71,7 @@ public class SignUpTests extends BaseTestPage {
 
             }
 
-    @Test (priority = 4)
+    @Test
     public void signUpTest() throws InterruptedException {
         homePage.goToSignUp();
         //Podaci:

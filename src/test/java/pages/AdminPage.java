@@ -11,19 +11,18 @@ import java.time.Duration;
 
 public class AdminPage extends BasePage{
     protected By adminBtn = By.xpath("//*[@id='app']/div[1]/div/header/div/div[3]/button[1]/span");
-    protected By cities = By.xpath("//*[@id='app']/div[3]/div[1]/a[1]");
-    protected By newItem = By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[1]/div[1]/div[3]/form/div[1]/button/span/i");
-    protected By nameCity = By.xpath("//*[@id='name']");
+    protected By citiesBtn = By.xpath("//*[@id='app']/div[3]/div[1]/a[1]");
+    protected By addNewCity = By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[1]/div[1]/div[3]/form/div[1]/button/span/i");
+    protected By cityName = By.xpath("//*[@id='name']");
     protected By saveBtn = By.xpath("//*[@id='app']/div[5]/div/div/div[3]/button[2]/span");
     protected By editBtn = By.xpath("//*[@id='edit']/span/i");
-    protected By editCityField = By.xpath("//*[@id='name']");
-
-    protected By saveEditedCity = By.xpath("//*[@id='app']/div[5]/div/div/div[3]/button[2]/span");
-
-    protected By searchField = By.id("search");
-    protected Faker faker = new Faker();
-    private String city;
-
+    protected By editCityName = By.xpath("//*[@id='name']");
+    protected By saveNewCityName = By.xpath("//*[@id='app']/div[5]/div/div/div[3]/button[2]/span");
+    protected By searchField = By.xpath("//*[@id='search']");
+    protected By searchBtn = By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[1]/div[1]/div[2]/div/div/div/div[3]/div/i");
+    private String newCityName = "New Name";
+    protected By deleteBtn = By.id("delete");
+    protected By deleteCityFinal = By.xpath("//*[@id='app']/div[5]/div/div/div[2]/button[2]");
 
     public AdminPage(WebDriver driver, WebDriverWait driverWait) {
         super(driver, driverWait);
@@ -34,15 +33,15 @@ public class AdminPage extends BasePage{
     }
 
     public WebElement getCities() {
-        return getDriver().findElement(cities);
+        return getDriver().findElement(citiesBtn);
     }
 
-    public WebElement getNewCity() {
-        return getDriver().findElement(newItem);
+    public WebElement getAddNewCityOption() {
+        return getDriver().findElement(addNewCity);
     }
 
-    public WebElement getNameCity() {
-        return getDriver().findElement(nameCity);
+    public WebElement getCityName() {
+        return getDriver().findElement(cityName);
     }
 
     public WebElement getSaveBtn() {
@@ -53,58 +52,79 @@ public class AdminPage extends BasePage{
         return getDriver().findElement(editBtn);
     }
 
-    public WebElement getEdiCityField() {
-        return getDriver().findElement(editCityField);
+    public WebElement getEditItem() {
+        return getDriver().findElement(editCityName);
     }
 
-    public WebElement getSaveEditedCity() {
-        return getDriver().findElement(saveEditedCity);
+    public WebElement getSaveEditItem() {
+        return getDriver().findElement(saveNewCityName);
     }
 
-    public WebElement getSearchField() {return getDriver().findElement(searchField);}
-
-    public Faker getFaker() {
-        return faker;
+    public WebElement getSearchBox() {
+        return getDriver().findElement(searchField);
     }
 
-    public String getCity() {
-        return city;
+    public WebElement getSearchBtn() {
+        return getDriver().findElement(searchBtn);
     }
 
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public void clickAdminBtn(){
+    public void clickAdminBtn() {
         getAdminBtn().click();
     }
 
-    public void clickCitiesBtn(){
+    public void clickCitiesBtn() {
         getCities().click();
     }
 
-    public void createCityMethod() throws InterruptedException {
-        getNewCity().click();
-        Thread.sleep(3000);
-        getNameCity().click();
-        city = getFaker().address().city();
-        getNameCity().sendKeys(city);
+    public String getNewCityName(){
+        return newCityName;
+    }
+
+
+    public WebElement getDeleteBtn() {
+        return getDriver().findElement(deleteBtn);
+    }
+
+    public WebElement getDeleteCityFinal() {
+        return getDriver().findElement(deleteCityFinal);
+    }
+
+    public void addNewCityMethod(String name) {
+        getAddNewCityOption().click();
+        getCityName().click();
+        getCityName().sendKeys(Keys.CONTROL + "A", Keys.DELETE);
+        getCityName().sendKeys(name);
         getSaveBtn().click();
-
     }
-    public void editCityMethod(){
+
+    public void editCityMethod() {
         getEditBtn().click();
-        getEdiCityField().click();
-        getEdiCityField().sendKeys(Keys.CONTROL + "A", Keys.DELETE);
-        getEdiCityField().sendKeys("New Town Name");
-        getSaveEditedCity().click();
-
+        getEditItem().click();
+        getCityName().sendKeys(Keys.CONTROL + "A", Keys.DELETE);
+        getEditItem().sendKeys(newCityName);
+        getSaveEditItem().click();
     }
 
-    public void searchCityMethod(){
-        getSearchField().click();
-        getSearchField().sendKeys("New Town Name");
-
-
+    public void searchCityMethod() {
+        getSearchBox().click();
+        getSearchBox().sendKeys(newCityName);
+        getSearchBtn().click();
     }
+
+    public WebElement getFirstCityText() {
+        return getDriver().findElement(By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[1]/div[2]/table/tbody/tr[1]/td[2]"));
+    }
+
+    public WebElement getSearchedText() {
+        return getDriver().findElement(By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]"));
+    }
+
+    public void deleteCity(){
+        getDeleteBtn().click();
+    }
+
+    public void deleteCityMethod(){
+        getDeleteCityFinal().click();
+    }
+
 }
