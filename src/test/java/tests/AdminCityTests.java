@@ -12,6 +12,13 @@ import java.time.Duration;
 public class AdminCityTests extends BaseTestPage {
 
     @Test
+    //Input data:
+    //•	admin email: admin@admin.com
+    //•	admin password: 12345
+    //assert:
+    //Verify that url page contains "/admin/cities" route
+    //Verify that "LOGOUT" button is visible
+
     public void adminCitiesUrlTest() throws InterruptedException {
         homePage.goToLogin();
         loginPage.loginMethod("admin@admin.com", "12345");
@@ -29,6 +36,9 @@ public class AdminCityTests extends BaseTestPage {
     }
 
     @Test
+    //Data: faker library data
+    //assert:
+    //Verify that message contains "Saved successfully" text
     public void createCityTest() throws InterruptedException {
         homePage.goToLogin();
         loginPage.loginMethod("admin@admin.com", "12345");
@@ -41,25 +51,26 @@ public class AdminCityTests extends BaseTestPage {
         loginPage.getLogoutBtn().click();
     }
 
-     @Test
-    public void editCityTest() throws InterruptedException {
-         homePage.goToLogin();
-         loginPage.loginMethod("admin@admin.com", "12345");
-         adminPage.clickAdminBtn();
-         adminPage.clickCitiesBtn();
-         adminPage.editCityMethod();
-         webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(15));
-         WebElement actualResult = driver.findElement(By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]"));
-         Assert.assertTrue(actualResult.getText().contains("Saved successfully"));
-         loginPage.getLogoutBtn().click();
+    @Test
+    //Verify that message contains "Saved successfully" text
+    public void editCityTest() {
+        homePage.goToLogin();
+        loginPage.loginMethod("admin@admin.com", "12345");
+        adminPage.clickAdminBtn();
+        adminPage.clickCitiesBtn();
+        adminPage.editCityMethod();
+        webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        WebElement actualResult = driver.findElement(By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[3]/div/div/div/div/div[1]"));
+        Assert.assertTrue(actualResult.getText().contains("Saved successfully"));
+        loginPage.getLogoutBtn().click();
     }
 
     @Test
-    public void searchCityTest() throws InterruptedException {
+    public void searchCityTest() {
 
-        //Podaci: editovani grad iz testa #3
+        //find edited city
         //assert:
-        //Verifikovati da se u Name koloni prvog reda nalazi tekst iz pretrage
+        //Verify that citi is found
 
         homePage.goToLogin();
         loginPage.loginMethod("admin@admin.com", "12345");
@@ -75,6 +86,7 @@ public class AdminCityTests extends BaseTestPage {
     }
 
     @Test
+    // test delete city functionality
     public void deleteCityTest() {
         homePage.goToLogin();
         loginPage.loginMethod("admin@admin.com", "12345");

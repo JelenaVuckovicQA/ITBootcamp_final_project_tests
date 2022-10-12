@@ -1,54 +1,42 @@
 package tests;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.Test;
-
-import java.time.Duration;
 
 public class ProfileTests extends BaseTestPage {
 
     @Test
-    public void editsProfile() {
+    public void editProfileTest() {
+        String expectedResult = "Profile saved successfuly";
 
         homePage.goToLogin();
         loginPage.loginMethod("admin@admin.com", "12345");
-        profilePage.getProfileButton().click();
+        profilePage.getMyProfileBtn().click();
+
         String name = faker.name().fullName();
-        String phone = faker.phoneNumber().cellPhone();
-        String city = "Bucaramanga";
-        String country = faker.address().country();
-        String twitter = faker.internet().avatar();
-        String gitHub = faker.internet().avatar();
+        String phone = faker.phoneNumber().phoneNumber();
+        String city = faker.address().city();
+        String country = faker.country().name();
+        String twitter = "http://" + faker.internet().domainName();
+        String github = "http://" + faker.internet().domainName();
 
-        profilePage.changeProfileMethod(name, phone, city, country, twitter, gitHub);
-
-        profilePage.getSaveButton().click();
-
-        WebDriverWait webDriverWait = new WebDriverWait(driver, Duration.ofSeconds(20));
-        webDriverWait.until(ExpectedConditions.textToBe(By.xpath("//*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]"),
-                "Profile saved successfuly\nCLOSE"));
-
-        String actualResult = profilePage.getSaveSuccessfullyMessage().getText();
-        String expectedResult = "Profile saved successfuly";
-
-        Assert.assertTrue(actualResult.contains(expectedResult));
+        profilePage.editProfileMethod(name, phone, city, country, twitter, github);
 
         String actualName = profilePage.getName().getAttribute("value");
         String actualPhone = profilePage.getPhone().getAttribute("value");
-        String actualCity = profilePage.getCity().getAttribute("value");
         String actualCountry = profilePage.getCountry().getAttribute("value");
         String actualTwitter = profilePage.getTwitter().getAttribute("value");
-        String actualGitHub = profilePage.getGitHub().getAttribute("value");
+        String actualGithub = profilePage.getGitHub().getAttribute("value");
 
-        Assert.assertEquals(actualName, name);
-        Assert.assertEquals(actualPhone, phone);
-        Assert.assertEquals(actualCity, "Bucaramanga");
-        Assert.assertEquals(actualCountry, country);
-        Assert.assertEquals(actualTwitter, twitter);
-        Assert.assertEquals(actualGitHub, gitHub);
+        Assert.assertEquals(name, actualName);
+        Assert.assertEquals(phone, actualPhone);
+        Assert.assertEquals(country, actualCountry);
+        Assert.assertEquals(twitter, actualTwitter);
+        Assert.assertEquals(github, actualGithub);
+
+        String actualResult = profilePage.getSaveMessage().getText();
+        Assert.assertTrue(actualResult.contains(expectedResult));
+
 
     }
 }

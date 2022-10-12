@@ -1,18 +1,13 @@
 package tests;
 
-import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.time.Duration;
 
-public class LoginTest extends BaseTestPage{
+public class LoginTest extends BaseTestPage {
 
     //Option:
     //@BeforeMethod
@@ -20,18 +15,22 @@ public class LoginTest extends BaseTestPage{
     //homePage.goToLogin();
     //}
 
-    //assert: • Verifikovati da se u url-u stranice javlja ruta /login
 
     @Test
+    //assert: • verify that page URL containts "/login" route
     public void visitsTheLoginPageTest() {
         homePage.goToLogin();
-        String expectedUrl = "https://vue-demo.daniel-avellaneda.com/login";
-        String actualUrlR = driver.getCurrentUrl();
-        Assert.assertEquals(actualUrlR, expectedUrl);
+        String actualResult = driver.getCurrentUrl();
+        Assert.assertTrue(actualResult.endsWith("/login"));
 
     }
 
     @Test()
+    //Test #2: Checks input types
+    //assert:
+    //verify that email field has an atribute type value: "email"
+    // verify that password field has an atribute type value: "password"
+
     public void checksInputTypesTest() {
         homePage.goToLogin();
         String expUsernameType = "email";
@@ -46,13 +45,13 @@ public class LoginTest extends BaseTestPage{
 
 
     @Test
+    //Test #3: Displays errors when user does not exist
+
     public void displaysErrorsWhenUserDoesNotExistTest() {
 
-        Faker faker = new Faker();
         homePage.goToLogin();
         loginPage.loginMethod(faker.bothify("????##@gmail.com"), faker.funnyName().name());
-        String actualResult = driver.findElement
-                (By.xpath(" //*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]/ul/li")).getText();
+        String actualResult = driver.findElement(By.xpath(" //*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]/ul/li")).getText();
 
         String expResult = "User does not exists";
         Assert.assertEquals(actualResult, expResult);
@@ -60,14 +59,20 @@ public class LoginTest extends BaseTestPage{
     }
 
     @Test
+
+    //Input data:
+    // email: admin@admin.com
+    // password: fake password
+    //asssert:
+    //Verify that notification contains "Wrong password" message
+    //Verify that url contains "/login" route
+
     public void displaysErrorsWhenPasswordWrongTest() {
-        Faker faker = new Faker();
         homePage.goToLogin();
         String validUser = " admin@admin.com";
         loginPage.loginMethod(validUser, faker.funnyName().name());
 
-        String actualResult = driver.findElement
-                (By.xpath(" //*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]/ul/li")).getText();
+        String actualResult = driver.findElement(By.xpath(" //*[@id=\"app\"]/div[1]/main/div/div[2]/div/div/div[4]/div/div/div/div/div[1]/ul/li")).getText();
         String expResult = "Wrong password";
         Assert.assertEquals(actualResult, expResult);
 
@@ -77,6 +82,11 @@ public class LoginTest extends BaseTestPage{
     }
 
     @Test
+    //Input data:
+    //email: admin@admin.com
+    //password: 12345
+    //asssert:
+    //Verify that url contains "/home" route
     public void validLoginTest() {
         String validUser = " admin@admin.com";
         String validPassword = "12345";
@@ -100,8 +110,7 @@ public class LoginTest extends BaseTestPage{
         homePage.goToLogin();
         loginPage.loginMethod(validUser, validPassword);
         webDriverWait.until(ExpectedConditions.urlContains("/home"));
-        WebElement logoutBtn =
-                driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div/header/div/div[3]/button[2]"));
+        WebElement logoutBtn = driver.findElement(By.xpath("//*[@id=\"app\"]/div[1]/div/header/div/div[3]/button[2]"));
 
         boolean isClickableLogout = logoutBtn.isEnabled();
         Assert.assertTrue(isClickableLogout);

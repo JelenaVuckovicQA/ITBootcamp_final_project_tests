@@ -1,15 +1,14 @@
 package pages;
 
-import com.github.javafaker.Faker;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 
-public class AdminPage extends BasePage{
+public class AdminPage extends BasePage {
+    private final String newCityName = "New Name";
     protected By adminBtn = By.xpath("//*[@id='app']/div[1]/div/header/div/div[3]/button[1]/span");
     protected By citiesBtn = By.xpath("//*[@id='app']/div[3]/div[1]/a[1]");
     protected By addNewCity = By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[1]/div[1]/div[3]/form/div[1]/button/span/i");
@@ -20,7 +19,6 @@ public class AdminPage extends BasePage{
     protected By saveNewCityName = By.xpath("//*[@id='app']/div[5]/div/div/div[3]/button[2]/span");
     protected By searchField = By.xpath("//*[@id='search']");
     protected By searchBtn = By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[1]/div[1]/div[2]/div/div/div/div[3]/div/i");
-    private String newCityName = "New Name";
     protected By deleteBtn = By.id("delete");
     protected By deleteCityFinal = By.xpath("//*[@id='app']/div[5]/div/div/div[2]/button[2]");
 
@@ -76,7 +74,7 @@ public class AdminPage extends BasePage{
         getCities().click();
     }
 
-    public String getNewCityName(){
+    public String getNewCityName() {
         return newCityName;
     }
 
@@ -119,11 +117,11 @@ public class AdminPage extends BasePage{
         return getDriver().findElement(By.xpath("//*[@id='app']/div[1]/main/div/div[2]/div/div[1]/div[2]/table/tbody/tr/td[2]"));
     }
 
-    public void deleteCity(){
+    public void deleteCity() {
         getDeleteBtn().click();
     }
 
-    public void deleteCityMethod(){
+    public void deleteCityMethod() {
         getDeleteCityFinal().click();
     }
 

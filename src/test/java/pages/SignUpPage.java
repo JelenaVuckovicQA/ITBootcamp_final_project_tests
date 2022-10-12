@@ -6,7 +6,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class SignUpPage extends BasePage{
+public class SignUpPage extends BasePage {
+
     protected By email = By.id("email");
     protected By password = By.id("password");
     protected By confirmPassword = By.id("confirmPassword");
@@ -14,6 +15,7 @@ public class SignUpPage extends BasePage{
     protected By signMeUp = By.xpath("//*[@id='app']/div/main/div/div[2]/div/div/div[2]/span/form/div/div[5]/button/span");
 
     Faker faker = new Faker();
+
     public SignUpPage(WebDriver driver, WebDriverWait driverWait) {
         super(driver, driverWait);
     }
@@ -42,14 +44,7 @@ public class SignUpPage extends BasePage{
         return faker;
     }
 
-    public void signUpMethod (String name, String email, String password, String confirmPassword) {
-        /*getName().clear();
-        getEmail().clear();
-        getPassword().clear();
-        getConfirmPassword().clear();
-
-         */
-
+    public void signUpMethod(String name, String email, String password, String confirmPassword) {
         getName().sendKeys(name);
         getEmail().sendKeys(email);
         getPassword().sendKeys(password);
